@@ -1,4 +1,5 @@
-name: publish
+name: Publish Docker Image
+run-name: Publish "Hello Docker Image"
 on: [push]
 jobs:
   publish-hello-docker-image:
@@ -11,7 +12,7 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build the hello-docker Docker image
+      - name: Build the Hello Docker image
         run: |
           docker build . --tag ghcr.io/sergiy-decima/hello-docker-gcr-demo:latest
           docker run ghcr.io/sergiy-decima/hello-docker-gcr-demo:latest
