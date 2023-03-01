@@ -3,6 +3,7 @@ run-name: ${{ github.actor }} is learning GitHub Actions
 on: [push]
 jobs:
   check-bats-version:
+    name: Check bats version
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -11,6 +12,8 @@ jobs:
           node-version: '14'
       - run: npm install -g bats
       - run: bats -v
+      - name: The job has succeeded
+        if: ${{ success() }}
   output-log:
     name: Save output
     runs-on: ubuntu-latest
