@@ -1,0 +1,12 @@
+name: Hi Mona of Docker
+run-name: Testing Docker
+on: push
+jobs:
+  docker_job:
+    name: Testing Docker Args
+    runs-on: ubuntu-latest
+    steps:
+      - name: Testing Docker with Name
+        uses: actions/hello-world-docker-action@main
+        with:
+          who-to-greet: 'Mona the Octocat'
