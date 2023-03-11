@@ -3,15 +3,14 @@ run-name: Testing Code
 #on: [push, pull_request]
 on: [pull_request]
 jobs:
-  php-test:
-    name: Run Tests PHP${{ matrix.php }} - ${{ matrix.dependency-version }}
+  phpunit-test:
+    name: Build Test Server
     runs-on: ubuntu-latest
-    environment: testing
+#    environment: testing
     strategy:
       fail-fast: true
       matrix:
-        php: [8.1]
-        dependency-version: [prefer-stable]
+        php: 8.1
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
