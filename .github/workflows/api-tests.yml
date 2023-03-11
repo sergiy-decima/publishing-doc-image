@@ -1,8 +1,9 @@
 name: Api Server Tests
 run-name: Testing Code
-on: [push, pull_request]
+#on: [push, pull_request]
+on: [pull_request]
 jobs:
-  test:
+  php-test:
     name: Run Tests PHP${{ matrix.php }} - ${{ matrix.dependency-version }}
     runs-on: ubuntu-latest
     environment: testing
@@ -21,7 +22,7 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           tools: phpunit-bridge
-          extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite
+          extensions: mbstring, xml, ctype, iconv, pdo_sqlite, json, opcache, mysql, mcrypt, zip, simplexml, gd, bcmath, intl, dom, soap
           coverage: xdebug
 
       - name: Cache Dependency
