@@ -1,6 +1,5 @@
 name: PHPUnit
 run-name: API Server Tests
-#on: [push, pull_request]
 on:
   push:
     branches:
@@ -12,7 +11,7 @@ on:
       - '**.md'
   workflow_dispatch:
 jobs:
-  phpunit-test:
+  phpunit:
     name: Build Test Server
     runs-on: ubuntu-latest
 #    environment: testing
@@ -66,5 +65,3 @@ jobs:
         with:
           check_name: PHP Test Results
           files: build/test-report.xml
-
-# https://github.com/sergiy-decima/publishing-doc-image/actions/workflows/api-tests.yml/badge.svg?branch=publish-patch-001
