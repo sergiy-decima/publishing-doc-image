@@ -2,10 +2,10 @@ name: Api Server Tests
 run-name: Testing Code
 #on: [push, pull_request]
 on:
-  pull:
-    branch: main
+  push:
+    branches:
+      - main
   pull_request:
-    branch: *
 jobs:
   phpunit-test:
     name: Build Test Server
