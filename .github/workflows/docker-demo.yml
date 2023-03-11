@@ -5,6 +5,7 @@ jobs:
   docker_job:
     name: Testing Docker Args
     runs-on: ubuntu-latest
+    environment: staging
     steps:
       - name: Testing Docker with Name
         uses: actions/hello-world-docker-action@main

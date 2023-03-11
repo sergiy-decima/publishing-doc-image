@@ -1,0 +1,44 @@
+name: Api Server Tests
+run-name: Testing Code
+on: [push, pull_request]
+jobs:
+  test:
+    name: Run Tests PHP${{ matrix.php }} - ${{ matrix.dependency-version }}
+    runs-on: ubuntu-latest
+    environment: testing
+    strategy:
+      fail-fast: true
+      matrix:
+        php: [8.1]
+        dependency-version: [prefer-stable]
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # Docs: https://github.com/shivammathur/setup-php
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: phpunit-bridge
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite
+          coverage: xdebug
+
+      - name: Cache Dependency
+        uses: actions/cache@v3
+        with:
+          path: ~/.composer/cache/files
+          key: php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
+          restore-keys: php-${{ matrix.php }}-composer-
+
+      - name: Install Composer Dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+#      - name: Install PHPUnit
+#        run: simple-phpunit install
+#
+#      - name: Run tests
+#        run: simple-phpunit --coverage-text
+
+      - name: Run Tests
+        run: php vendor/bin/phpunit -c phpunit.xml.dist test --coverage-html ./build/coverage
