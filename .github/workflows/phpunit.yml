@@ -48,9 +48,9 @@ jobs:
       - name: Run PHPUnit Tests
         run: |
           php vendor/bin/phpunit -c phpunit.xml.dist tests \
-            --coverage-clover=phpunit-result/coverage-report.clover \
+            --coverage-clover=phpunit-result/report.clover.xml \
             --log-junit=phpunit-result/report.junit.xml \
-            --coverage-cobertura=phpunit-result/cobertura.xml
+            --coverage-cobertura=phpunit-result/report.cobertura.xml
 
       - name: Publish PHPUnit Results
         uses: EnricoMi/publish-unit-test-result-action@v2
@@ -71,4 +71,12 @@ jobs:
           indicators: true
           output: both
           thresholds: '60 80'
+
+      - name: Code Coverage Clover Check
+        uses: sourcetoad/phpunit-coverage-action@v1
+        with:
+          clover_report_path: phpunit-result/report.clover.xml
+          min_coverage_percent: 80
+          fail_build_on_under: true
+
 
