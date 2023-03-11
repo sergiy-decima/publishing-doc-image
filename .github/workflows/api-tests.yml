@@ -52,11 +52,11 @@ jobs:
           ls -lah build
           set -e
 
-      - name: Publish Unit Test Results
+      - name: Publish PHP Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
         with:
-          files: |
-            build/test-report.xml
+          check_name: PHP Test Results
+          files: build/test-report.xml
 
 # https://github.com/sergiy-decima/publishing-doc-image/actions/workflows/api-tests.yml/badge.svg?branch=publish-patch-001
