@@ -46,18 +46,8 @@ jobs:
       - name: Install Composer Dependencies
         run: composer install --no-progress --prefer-dist --optimize-autoloader
 
-#      - name: Install PHPUnit
-#        run: simple-phpunit install
-#
-#      - name: Run tests
-#        run: simple-phpunit --coverage-text
-
       - name: Run Tests
-        run: |
-          set +e
-          php vendor/bin/phpunit -c phpunit.xml.dist test --coverage-html=build/coverage --coverage-clover=build/coverage-report.clover --log-junit=build/test-report.xml
-          ls -lah build
-          set -e
+        run: php vendor/bin/phpunit -c phpunit.xml.dist test --coverage-html=build/coverage --coverage-clover=build/coverage-report.clover --log-junit=build/test-report.xml
 
       - name: Publish PHP Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2
