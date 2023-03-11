@@ -20,7 +20,7 @@ jobs:
       matrix:
         php: [8.1]
     steps:
-      - name: Checkout Repository
+      - name: Git Checkout
         uses: actions/checkout@v3
 
       - name: Install PHP
@@ -35,7 +35,7 @@ jobs:
         id: composer-cache
         run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
-      - name: Create Cache Dependency
+      - name: Create Composer Cache
         uses: actions/cache@v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
@@ -48,18 +48,16 @@ jobs:
       - name: Run PHPUnit Tests
         run: |
           php vendor/bin/phpunit -c phpunit.xml.dist tests \
+            --coverage-text=phpunit-result/coverage.txt \
             --coverage-clover=phpunit-result/report.clover.xml \
             --log-junit=phpunit-result/report.junit.xml \
             --coverage-cobertura=phpunit-result/report.cobertura.xml
 
-      - name: Publish PHPUnit Results
-        uses: EnricoMi/publish-unit-test-result-action@v2
+      - name: PHPUnit Coverage Report Plain
         if: always()
-        with:
-          check_name: View PHPUnit Tests
-          files: phpunit-result/report.junit.xml
+        run: cat phpunit-result/coverage.txt
 
-      - name: Code Coverage Report
+      - name: PHPUnit Coverage Report Cobertura
         uses: irongut/CodeCoverageSummary@v1.3.0
         if: always()
         with:
@@ -73,7 +71,7 @@ jobs:
           output: both
           thresholds: '60 80'
 
-      - name: Code Coverage Clover Check
+      - name: PHPUnit Coverage Report Clover
         uses: sourcetoad/phpunit-coverage-action@v1
         if: always()
         with:
@@ -81,4 +79,9 @@ jobs:
           min_coverage_percent: 80
           fail_build_on_under: false
 
-
+      - name: Publish PHPUnit Tests
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          check_name: View PHPUnit Tests
+          files: phpunit-result/report.junit.xml

@@ -12,7 +12,7 @@
     <report>
       <html outputDirectory="phpunit-result/html"/>
       <text outputFile="phpunit-result/coverage.txt"/>
-      <clover outputFile="phpunit-result/report.clover.xml"/>
+      <clover outputFile="phpunit-result/coverage.clover.xml"/>
     </report>
   </coverage>
   <logging>
