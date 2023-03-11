@@ -34,8 +34,8 @@
   },
   "scripts": {
     "psalm": "vendor/bin/psalm src",
-    "test": "vendor/bin/phpunit test",
-    "test-coverage": "vendor/bin/phpunit -c phpunit.xml.dist test --coverage-html ./build/coverage",
+    "test": "vendor/bin/phpunit -c phpunit.xml.dist tests",
+    "test-coverage": "vendor/bin/phpunit -c phpunit.xml.dist tests --coverage-html=phpunit-result/html --coverage-clover=phpunit-result/coverage-report.clover --log-junit=phpunit-result/report.junit.xml",
     "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes src"
   },
   "config": {
