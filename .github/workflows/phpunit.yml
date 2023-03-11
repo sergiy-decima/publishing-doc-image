@@ -49,7 +49,8 @@ jobs:
         run: |
           php vendor/bin/phpunit -c phpunit.xml.dist tests \
             --coverage-clover=phpunit-result/coverage-report.clover \
-            --log-junit=phpunit-result/report.junit.xml
+            --log-junit=phpunit-result/report.junit.xml \
+            --coverage-cobertura=phpunit-result/cobertura.xml
 
       - name: Publish PHPUnit Results
         uses: EnricoMi/publish-unit-test-result-action@v2
@@ -57,3 +58,17 @@ jobs:
         with:
           check_name: View PHPUnit Tests
           files: phpunit-result/report.junit.xml
+
+      - name: Code Coverage Report
+        uses: irongut/CodeCoverageSummary@v1.3.0
+        with:
+          filename: phpunit-result/cobertura.xml
+          badge: true
+          fail_below_min: true
+          format: markdown
+          hide_branch_rate: false
+          hide_complexity: true
+          indicators: true
+          output: both
+          thresholds: '60 80'
+
