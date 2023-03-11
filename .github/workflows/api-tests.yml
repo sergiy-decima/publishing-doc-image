@@ -1,5 +1,5 @@
-name: Api Server Tests
-run-name: Testing Code
+name: PHPUnit
+run-name: API Server Tests
 #on: [push, pull_request]
 on:
   push:
