@@ -1,0 +1,61 @@
+name: Api Server Tests
+run-name: Testing Code
+#on: [push, pull_request]
+on: [pull_request]
+jobs:
+  phpunit-test:
+    name: Build Test Server
+    runs-on: ubuntu-latest
+#    environment: testing
+    strategy:
+      fail-fast: true
+      matrix:
+        php: [8.1]
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # Docs: https://github.com/shivammathur/setup-php
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: phpunit-bridge
+          extensions: mbstring, xml, ctype, iconv, pdo_sqlite, json, opcache, mysql, mcrypt, zip, simplexml, gd, bcmath, intl, dom, soap
+          coverage: xdebug
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache Dependency
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
+          restore-keys: php-${{ matrix.php }}-composer-
+
+      - name: Install Composer Dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+#      - name: Install PHPUnit
+#        run: simple-phpunit install
+#
+#      - name: Run tests
+#        run: simple-phpunit --coverage-text
+
+      - name: Run Tests
+        run: |
+          set +e
+          php vendor/bin/phpunit -c phpunit.xml.dist test --coverage-html=build/coverage --coverage-clover=build/coverage-report.clover --log-junit=build/test-report.xml
+          ls -lah build
+          set -e
+
+      - name: Publish PHP Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          check_name: PHP Test Results
+          files: build/test-report.xml
+
+# https://github.com/sergiy-decima/publishing-doc-image/actions/workflows/api-tests.yml/badge.svg?branch=publish-patch-001

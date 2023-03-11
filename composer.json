@@ -1,0 +1,46 @@
+{
+  "name": "sergiy-decima/publishing-doc-image",
+  "description": "A package to perform unit conversions",
+  "keywords": [
+    "sergiy-decima",
+    "publishing-doc-image"
+  ],
+  "homepage": "https://github.com/sergiy-decima/publishing-doc-image",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Elvis Presley",
+      "email": "elvis@gmail.com",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": "^8.1"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^2.19",
+    "phpunit/phpunit": "^10.0",
+    "vimeo/psalm": "^5.7"
+  },
+  "autoload": {
+    "psr-4": {
+      "Decima\\Doc\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Decima\\Doc\\Test\\": "tests"
+    }
+  },
+  "scripts": {
+    "psalm": "vendor/bin/psalm src",
+    "test": "vendor/bin/phpunit test",
+    "test-coverage": "vendor/bin/phpunit -c phpunit.xml.dist test --coverage-html ./build/coverage",
+    "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes src"
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
