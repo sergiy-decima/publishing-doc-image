@@ -8,7 +8,7 @@ class MathTest extends TestCase
     public function testSum()
     {
         $math = new \Decima\Doc\Math();
-        $this->assertEquals(5, $math->sum(2,3));
+        $this->assertEquals(6, $math->sum(2,3));
     }
 
     public function testHi()
