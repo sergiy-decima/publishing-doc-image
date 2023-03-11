@@ -1,4 +1,4 @@
 # Publishing Doc Image
-[![UnitTests](https://github.com/sergiy-decima/publishing-doc-image/actions/workflows/api-tests.yml/badge.svg?branch=main)](https://github.com/sergiy-decima/publishing-doc-image/actions/workflows/api-tests.yml)
+[![PHPUnit](https://github.com/sergiy-decima/publishing-doc-image/actions/workflows/phpunit.yml/badge.svg)](https://github.com/sergiy-decima/publishing-doc-image/actions/workflows/phpunit.yml)
 
 It is test docker image for github
