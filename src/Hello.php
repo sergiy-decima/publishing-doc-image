@@ -8,4 +8,9 @@ class Hello
     {
         return 'hi';
     }
+
+    public function go(): string
+    {
+        return 'home';
+    }
 }
