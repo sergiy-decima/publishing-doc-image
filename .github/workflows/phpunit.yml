@@ -3,7 +3,7 @@ run-name: PHPUnit Testing
 on:
   push:
     branches:
-      - main
+      - $default-branch
     paths-ignore:
       - '**.md'
   pull_request:
@@ -36,11 +36,21 @@ jobs:
         run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
       - name: Create Composer Cache
+        id: cache-composer
         uses: actions/cache@v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
-          restore-keys: php-${{ matrix.php }}-composer-
+          key: php-${{ matrix.php }}-composer-${{ hashFiles('composer.lock') }}
+          restore-keys:
+            - php-${{ matrix.php }}-composer-${{ hashFiles('composer.lock') }}
+            - php-${{ matrix.php }}-composer-
+            - php-${{ matrix.php }}-
+            - php-
+
+      - if: ${{ steps.cache-composer.outputs.cache-hit != 'true' }}
+        name: List the State of Composer Modules
+        continue-on-error: true
+        run: composer show
 
       - name: Install Composer Dependencies
         run: composer install --no-progress --prefer-dist --optimize-autoloader
@@ -50,8 +60,8 @@ jobs:
           php vendor/bin/phpunit -c phpunit.xml.dist tests \
             --coverage-text=phpunit-result/coverage.txt \
             --coverage-clover=phpunit-result/coverage.clover.xml \
-            --log-junit=phpunit-result/report.junit.xml \
-            --coverage-cobertura=phpunit-result/coverage.cobertura.xml
+            --coverage-cobertura=phpunit-result/coverage.cobertura.xml \
+            --log-junit=phpunit-result/report.junit.xml
 
       - name: PHPUnit Coverage Report Plain
         if: always()
