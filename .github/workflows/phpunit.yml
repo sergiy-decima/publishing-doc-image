@@ -41,11 +41,7 @@ jobs:
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: php-${{ matrix.php }}-composer-${{ hashFiles('composer.lock') }}
-          restore-keys:
-            - php-${{ matrix.php }}-composer-${{ hashFiles('composer.lock') }}
-            - php-${{ matrix.php }}-composer-
-            - php-${{ matrix.php }}-
-            - php-
+          restore-keys: php-${{ matrix.php }}-composer-
 
       - if: ${{ steps.cache-composer.outputs.cache-hit != 'true' }}
         name: List the State of Composer Modules
