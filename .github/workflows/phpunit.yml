@@ -95,6 +95,7 @@ jobs:
           fail_build_on_under: false
 
       - name: Post Cover2
+        if: always()
         run: echo "The percent was ${{ steps.clover2.outputs.percent }}%"
 
       - name: Publish PHPUnit Result
