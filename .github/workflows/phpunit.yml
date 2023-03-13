@@ -86,12 +86,16 @@ jobs:
           fail_build_on_under: false
 
       - name: PHPUnit Coverage Report Clover 2
+        id: clover2
         uses: ./.github/actions/phpunit-cobertura
         if: always()
         with:
           report_path: output/tests/coverage.txt
           min_coverage_percent: 85
           fail_build_on_under: false
+
+      - name: Post Cover2
+        run: echo "The percent was ${{ steps.clover2.outputs.percent }}%"
 
       - name: Publish PHPUnit Result
         uses: EnricoMi/publish-unit-test-result-action@v2
