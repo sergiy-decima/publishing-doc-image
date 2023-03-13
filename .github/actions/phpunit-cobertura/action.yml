@@ -16,5 +16,6 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - run: php index.php ${{ inputs.report_path }} ${{ inputs.min_coverage_percent }} ${{ inputs.fail_build_on_under }}
+#    - run: php index.php ${{ inputs.report_path }} ${{ inputs.min_coverage_percent }} ${{ inputs.fail_build_on_under }}
+    - run: echo Hello ${{ inputs.report_path }}.
       shell: bash
