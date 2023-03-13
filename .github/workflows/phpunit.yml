@@ -86,7 +86,7 @@ jobs:
           fail_build_on_under: false
 
       - name: PHPUnit Coverage Report Clover 2
-        uses: actions/phpunit-cobertura/action.yml
+        uses: ./.github/actions/phpunit-cobertura/action.yml
         if: always()
         with:
           clover_report_path: output/tests/coverage.txt

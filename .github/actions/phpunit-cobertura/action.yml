@@ -1,8 +1,8 @@
 name: 'PHPUnit Code Coverage'
 description: 'Coverage expert'
 branding:
-  color: 'purple'
-  icon: 'file-text'
+  icon: 'download-cloud'
+  color: 'green'
 inputs:
   report_path:
     description: 'Report to Clover Coverage XML Report'
