@@ -11,4 +11,4 @@ $context = file_get_contents($inputFile);
 
 echo $context;
 
-echo sprintf('percent=%s >> $GITHUB_OUTPUT', $inputPercent);
+shell_exec('echo ' . sprintf('"percent=%s" >> $GITHUB_OUTPUT', $inputPercent));
