@@ -19,3 +19,6 @@ runs:
 #    - run: php index.php ${{ inputs.report_path }} ${{ inputs.min_coverage_percent }} ${{ inputs.fail_build_on_under }}
     - run: echo Hello ${{ inputs.report_path }}.
       shell: bash
+    - id: random-number-generator
+      run: echo "random-number=$(echo $RANDOM)" >> $GITHUB_OUTPUT
+      shell: bash
