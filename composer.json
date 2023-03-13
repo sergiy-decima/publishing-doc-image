@@ -35,7 +35,7 @@
   "scripts": {
     "psalm": "vendor/bin/psalm",
     "test": "vendor/bin/phpunit",
-    "test-coverage": "vendor/bin/phpunit -c phpunit.xml.dist tests --coverage-html=phpunit-result/html --coverage-text=phpunit-result/coverage.txt --coverage-clover=phpunit-result/coverage.clover.xml --coverage-cobertura=phpunit-result/coverage.cobertura.xml --log-junit=phpunit-result/report.junit.xml",
+    "test-coverage": "vendor/bin/phpunit -c phpunit.xml.dist tests --coverage-html=output/tests/coverage --coverage-text=output/tests/coverage.txt --coverage-clover=output/tests/coverage.clover.xml --coverage-cobertura=output/tests/coverage.cobertura.xml --log-junit=output/tests/report.junit.xml",
     "cs-fixer": "vendor/bin/php-cs-fixer fix --dry-run --allow-risky=yes --show-progress=dots --using-cache=no --verbose src"
   },
   "config": {

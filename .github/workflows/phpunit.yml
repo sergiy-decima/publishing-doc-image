@@ -3,7 +3,7 @@ run-name: PHPUnit Testing
 on:
   push:
     branches:
-      - $default-branch
+      - main
     paths-ignore:
       - '**.md'
   pull_request:
@@ -54,20 +54,20 @@ jobs:
       - name: Run PHPUnit Tests
         run: |
           php vendor/bin/phpunit -c phpunit.xml.dist tests \
-            --coverage-text=phpunit-result/coverage.txt \
-            --coverage-clover=phpunit-result/coverage.clover.xml \
-            --coverage-cobertura=phpunit-result/coverage.cobertura.xml \
-            --log-junit=phpunit-result/report.junit.xml
+            --coverage-text=output/tests/coverage.txt \
+            --coverage-clover=output/tests/coverage.clover.xml \
+            --coverage-cobertura=output/tests/coverage.cobertura.xml \
+            --log-junit=output/tests/report.junit.xml
 
       - name: PHPUnit Coverage Report Plain
         if: always()
-        run: cat phpunit-result/coverage.txt
+        run: cat output/tests/coverage.txt
 
       - name: PHPUnit Coverage Report Cobertura
         uses: irongut/CodeCoverageSummary@v1.3.0
         if: always()
         with:
-          filename: phpunit-result/coverage.cobertura.xml
+          filename: output/tests/coverage.cobertura.xml
           badge: true
           fail_below_min: false
           format: markdown
@@ -81,8 +81,16 @@ jobs:
         uses: sourcetoad/phpunit-coverage-action@v1
         if: always()
         with:
-          clover_report_path: phpunit-result/coverage.clover.xml
+          clover_report_path: output/tests/coverage.clover.xml
           min_coverage_percent: 80
+          fail_build_on_under: false
+
+      - name: PHPUnit Coverage Report Clover 2
+        uses: actions/phpunit-cobertura/action.yml
+        if: always()
+        with:
+          clover_report_path: output/tests/coverage.txt
+          min_coverage_percent: 85
           fail_build_on_under: false
 
       - name: Publish PHPUnit Result
@@ -90,4 +98,4 @@ jobs:
         if: always()
         with:
           check_name: View PHPUnit Result
-          files: phpunit-result/report.junit.xml
+          files: output/tests/report.junit.xml

@@ -10,13 +10,13 @@
       <directory suffix=".php">./src</directory>
     </include>
     <report>
-      <html outputDirectory="phpunit-result/html"/>
-      <text outputFile="phpunit-result/coverage.txt"/>
-      <clover outputFile="phpunit-result/coverage.clover.xml"/>
-      <cobertura outputFile="phpunit-result/coverage.cobertura.xml"/>
+      <html outputDirectory="output/tests/coverage"/>
+      <text outputFile="output/tests/coverage.txt"/>
+      <clover outputFile="output/tests/coverage.clover.xml"/>
+      <cobertura outputFile="output/tests/coverage.cobertura.xml"/>
     </report>
   </coverage>
   <logging>
-    <junit outputFile="phpunit-result/report.junit.xml"/>
+    <junit outputFile="output/tests/report.junit.xml"/>
   </logging>
 </phpunit>
