@@ -89,7 +89,7 @@ jobs:
         uses: ./.github/actions/phpunit-cobertura
         if: always()
         with:
-          clover_report_path: output/tests/coverage.txt
+          report_path: output/tests/coverage.txt
           min_coverage_percent: 85
           fail_build_on_under: false
 
