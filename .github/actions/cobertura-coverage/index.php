@@ -5,10 +5,9 @@ $filename = $argv[1];
 $minPercent = filter_var($argv[2], FILTER_VALIDATE_FLOAT);
 $failedExit = filter_var($argv[3], FILTER_VALIDATE_BOOLEAN);
 
-$lineHits = 0;
+$lineHits   = 0;
 $lineTotals = 0;
-$xml = simplexml_load_file($filename);
-foreach ($xml->xpath('*/package/classes') as $classesElement) {
+foreach (simplexml_load_file($filename)->xpath('*/package/classes') as $classesElement) {
     $lines = [];
     $classes = ((array)$classesElement)['class'];
     foreach ($classes as $class) {
@@ -32,13 +31,11 @@ function parseLines(SimpleXMLElement $linesElement, array &$return): void
 }
 
 $linePercent = sprintf('%.02f', $lineHits / $lineTotals * 100);
-//echo "Hits: ".$lineHits . "\n";
-//echo "Lines: ".$lineTotals . "\n";
-echo "Summary Line Coverage: ".$linePercent . "\n";
-
 shell_exec('echo ' . sprintf('"percent=%s" >> $GITHUB_OUTPUT', $linePercent));
 
-if ($linePercent < $minPercent) {
+if ($linePercent >= $minPercent) {
+    echo sprintf("Summary Line Coverage: %s%%", $linePercent) . PHP_EOL;
+} else {
     echo "::error::Code Coverage is $linePercent%, which is below the accepted $minPercent%." . PHP_EOL;
     exit((int)$failedExit);
 }

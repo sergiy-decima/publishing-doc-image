@@ -10,7 +10,7 @@ class Math
             return 0;
         }
 
-        return $a + $b + 1;
+        return $a + $b;
     }
 
     public function minus(int|float $a, int|float $b): int|float
