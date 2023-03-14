@@ -34,8 +34,8 @@ $linePercent = sprintf('%.02f', $lineHits / $lineTotals * 100);
 shell_exec('echo ' . sprintf('"percent=%s" >> $GITHUB_OUTPUT', $linePercent));
 
 if ($linePercent >= $minPercent) {
-    echo sprintf("Summary Line Coverage: %s%%", $linePercent) . PHP_EOL;
+    echo sprintf("Summary Line Coverage: %s%% ($lineHits / $lineTotals)", $linePercent) . PHP_EOL;
 } else {
-    echo "::error::Code Coverage is $linePercent%, which is below the accepted $minPercent%." . PHP_EOL;
-    exit((int)$failedExit);
+    echo sprintf("::error::Code Coverage is %s%% (%s / %s), which is below the accepted %s%%.", $linePercent, $lineHits, $lineTotals, $minPercent) . PHP_EOL;
+    exit($failedExit ? 1 : 0);
 }

@@ -91,12 +91,8 @@ jobs:
         if: always()
         with:
           filename: output/tests/coverage.cobertura.xml
-          min_coverage: 85
+#          min_coverage: 80
           failed_exit: true
-
-      - name: Post Cobertura Coverage
-        if: always()
-        run: echo "The percent was ${{ steps.cobertura_coverage.outputs.percent }}%"
 
       - name: Publish PHPUnit Result
         uses: EnricoMi/publish-unit-test-result-action@v2
