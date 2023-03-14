@@ -14,3 +14,11 @@ class Hello
         return 'home';
     }
 }
+
+class A
+{
+    public function hello(): string
+    {
+        return 'hi';
+    }
+}
