@@ -1,3 +1,11 @@
 *
-!.github/*/*
-!.gitignore
+!/.github
+!/src
+!/tests
+!/.gitignore
+!/composer.json
+!/composer.lock
+!/Dockerfile
+!/phpunit.xml.dist
+!/psalm.xml.dist
+!/README.md
