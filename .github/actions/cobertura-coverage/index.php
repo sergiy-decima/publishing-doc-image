@@ -5,7 +5,6 @@ $filename   = $argv[1];
 $minPercent = filter_var($argv[2], FILTER_VALIDATE_FLOAT);
 $failIfLow  = filter_var($argv[3], FILTER_VALIDATE_BOOLEAN);
 
-print_r($_ENV);
 $lineHits   = 0;
 $lineTotals = 0;
 foreach (simplexml_load_file($filename)->xpath('*/package/classes') as $classesElement) {
@@ -33,17 +32,11 @@ function parseLines(SimpleXMLElement $linesElement, array &$return): void
 
 $linePercent = sprintf('%.02f', $lineHits / $lineTotals * 100);
 //shell_exec('echo ' . sprintf('"percent=%s" >> $GITHUB_OUTPUT', $linePercent));
-
-file_put_contents($_ENV['GITHUB_OUTPUT'], sprintf("method=%s".PHP_EOL, 'cobertura-coverage'), FILE_APPEND);
-file_put_contents($_ENV['GITHUB_OUTPUT'], sprintf("percent=%s".PHP_EOL, $linePercent), FILE_APPEND);
-
-//shell_exec('echo ' . sprintf('"name=%s" >> $GITHUB_OUTPUT', 'Slon'));
-//file_put_contents($_ENV['GITHUB_OUTPUT'], sprintf("age=%s", 25), FILE_APPEND);
-//echo file_get_contents($_ENV['GITHUB_OUTPUT']);
+file_put_contents($_ENV['GITHUB_OUTPUT'], sprintf("percent=%s", $linePercent) . PHP_EOL, FILE_APPEND);
 
 if ($linePercent >= $minPercent) {
     echo sprintf("Summary Line Coverage: %s%% ($lineHits / $lineTotals)", $linePercent) . PHP_EOL;
 } else {
-    echo sprintf("::error::Code Coverage is %s%% (%s / %s), which is below the accepted %s%%.", $linePercent, $lineHits, $lineTotals, $minPercent) . PHP_EOL;
+    echo sprintf("::error::Code coverage is %s%% (%s / %s), which is below the accepted %s%%.", $linePercent, $lineHits, $lineTotals, $minPercent) . PHP_EOL;
     exit($failIfLow ? 1 : 0);
 }

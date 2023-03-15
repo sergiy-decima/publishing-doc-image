@@ -1,5 +1,8 @@
 name: 'Code Coverage Cobertura'
 description: 'Coverage expert by cobertura'
+branding:
+  icon: 'award'
+  color: 'green'
 inputs:
   filename:
     description: 'Report to Cobertura Coverage XML Report'
@@ -15,8 +18,6 @@ inputs:
 outputs:
   percent:
     description: 'Current coverage percentage'
-  method:
-    description: 'Current method'
 runs:
   using: 'docker'
   image: 'Dockerfile'
