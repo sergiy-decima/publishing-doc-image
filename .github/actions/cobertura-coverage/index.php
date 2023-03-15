@@ -34,6 +34,7 @@ function parseLines(SimpleXMLElement $linesElement, array &$return): void
 $linePercent = sprintf('%.02f', $lineHits / $lineTotals * 100);
 //shell_exec('echo ' . sprintf('"percent=%s" >> $GITHUB_OUTPUT', $linePercent));
 
+file_put_contents($_ENV['GITHUB_OUTPUT'], sprintf("method=%s", 'cobertura-coverage'), FILE_APPEND);
 file_put_contents($_ENV['GITHUB_OUTPUT'], sprintf("percent=%s", $linePercent), FILE_APPEND);
 
 //shell_exec('echo ' . sprintf('"name=%s" >> $GITHUB_OUTPUT', 'Slon'));

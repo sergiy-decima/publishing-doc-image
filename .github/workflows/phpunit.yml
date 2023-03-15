@@ -97,6 +97,7 @@ jobs:
       - name: PHPUnit Coverage Report Cobertura XXX Result
         if: always()
         run: |
+          echo "Method is ${{ steps.cobertura_coverage.outputs.method }}."
           echo "Coverage is ${{ steps.cobertura_coverage.outputs.percent }}%"
 
       - name: Publish PHPUnit Result
