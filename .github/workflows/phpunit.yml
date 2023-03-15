@@ -91,8 +91,8 @@ jobs:
         if: always()
         with:
           filename: output/tests/coverage.cobertura.xml
-#          min_coverage: 80
-          failed_exit: true
+          min_coverage: 80
+          fail_if_low: true
 
       - name: Publish PHPUnit Result
         uses: EnricoMi/publish-unit-test-result-action@v2

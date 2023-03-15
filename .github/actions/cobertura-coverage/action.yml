@@ -8,17 +8,17 @@ inputs:
     description: 'Coverage percent (minimum to enforce)'
     required: false
     default: 80
-  failed_exit:
+  fail_if_low:
     description: 'Whether to fail the build if coverage too low.'
     required: false
     default: false
 outputs:
   percent:
-    description: 'Percent value'
+    description: 'Current coverage percentage'
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
     - ${{ inputs.filename }}
     - ${{ inputs.min_coverage }}
-    - ${{ inputs.failed_exit }}
+    - ${{ inputs.fail_if_low }}
