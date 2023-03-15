@@ -31,15 +31,14 @@ function parseLines(SimpleXMLElement $linesElement, array &$return): void
     }
 }
 
-echo 'GITHUB_OUTPUT: ' . $_ENV['GITHUB_OUTPUT'] . "\n";
-
-
 $linePercent = sprintf('%.02f', $lineHits / $lineTotals * 100);
-shell_exec('echo ' . sprintf('"percent=%s" >> $GITHUB_OUTPUT', $linePercent));
+//shell_exec('echo ' . sprintf('"percent=%s" >> $GITHUB_OUTPUT', $linePercent));
 
+file_put_contents($_ENV['GITHUB_OUTPUT'], sprintf("percent=%s", $linePercent), FILE_APPEND);
 
-shell_exec('echo ' . sprintf('"name=%s" >> $GITHUB_OUTPUT', 'Slon'));
-echo file_get_contents($_ENV['GITHUB_OUTPUT']);
+//shell_exec('echo ' . sprintf('"name=%s" >> $GITHUB_OUTPUT', 'Slon'));
+//file_put_contents($_ENV['GITHUB_OUTPUT'], sprintf("age=%s", 25), FILE_APPEND);
+//echo file_get_contents($_ENV['GITHUB_OUTPUT']);
 
 if ($linePercent >= $minPercent) {
     echo sprintf("Summary Line Coverage: %s%% ($lineHits / $lineTotals)", $linePercent) . PHP_EOL;
