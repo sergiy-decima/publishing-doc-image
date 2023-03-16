@@ -1,7 +1,6 @@
 <?php
 declare(strict_types=1);
 
-// @link https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux
 $NORMAL_COLOR    = "\e[0m";
 $BOLD_COLOR      = "\e[1m";
 $BLACK_COLOR     = "\e[30m";
@@ -17,12 +16,11 @@ $BLINK_COLOR     = "\e[5m";
 $filename   = $argv[1];
 $thresholds = $argv[2];
 $failIfLow  = filter_var($argv[3], FILTER_VALIDATE_BOOLEAN);
-if (preg_match('/(\d+)([\s\.\-_]+(\d+\.{0,1}\d*))?/', $thresholds, $m)) {
+$lowThreshold   = 60;
+$upperThreshold = 80;
+if (preg_match('/(\d+)([\s\.\-_,:;]+(\d+\.{0,1}\d*))?/', $thresholds, $m)) {
     $lowThreshold   = (float)$m[1];
     $upperThreshold = (float)$m[3] ?: $lowThreshold;
-} else {
-    $lowThreshold   = 50;
-    $upperThreshold = 75;
 }
 $minPercentToBuild = $lowThreshold;
 
