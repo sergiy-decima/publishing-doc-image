@@ -91,7 +91,7 @@ jobs:
         if: always()
         with:
           filename: output/tests/coverage.clover.xml
-          thresholds: '30..41'
+          thresholds: '60-80'
           fail_if_low: true
 
       - name: PHPUnit Coverage Report Cobertura XXX
