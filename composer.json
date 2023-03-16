@@ -24,12 +24,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Decima\\Doc\\": "src"
+      "Example\\Lite\\": "src"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Decima\\Doc\\Test\\": "tests"
+      "Example\\Lite\\Test\\": "tests"
     }
   },
   "scripts": {
