@@ -10,6 +10,7 @@ $YELLOW_COLOR    = "\e[33m";
 $BG_RED_COLOR    = "\e[41m";
 $BG_GREEN_COLOR  = "\e[42m";
 $BG_YELLOW_COLOR = "\e[43m";
+$BLINK_COLOR     = "\e[5m";
 
 $SUCCESS_COLOR  = $BG_GREEN_COLOR . $BLACK_COLOR;
 $ERROR_COLOR    = $BG_RED_COLOR . $BLACK_COLOR;
@@ -109,7 +110,7 @@ foreach ($classSummary as $name => $info) {
 echo PHP_EOL;
 
 if ($linePercent >= $upperThreshold) {
-    echo sprintf("${GREEN_COLOR}${BOLD_COLOR}Summary Line Coverage: %s%% ($lineHits/$lineTotals)${NORMAL_COLOR}", $linePercent) . PHP_EOL;
+    echo sprintf("${GREEN_COLOR}${BOLD_COLOR}> Summary Line Coverage: %s%% ($lineHits/$lineTotals)${NORMAL_COLOR}", $linePercent) . PHP_EOL;
 } else {
     echo sprintf("::error::Code coverage is %s%% (%d/%d), which is below the accepted %s%%.", (float)$linePercent, $lineHits, $lineTotals, $upperThreshold) . PHP_EOL;
     exit($failIfLow ? 1 : 0);
