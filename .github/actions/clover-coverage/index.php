@@ -52,7 +52,7 @@ foreach ((array)simplexml_load_file($filename)->xpath('*/file') as $fileElement)
     }
 
     foreach ($classes as $class) {
-        if ($class->metrics) {
+        if ($class->metrics && ((int)$class->metrics['methods']) > 0) {
             $classHits += (((int)$class->metrics['methods']) == ((int)$class->metrics['coveredmethods']) ? 1 : 0);
             $classTotals += 1;
             $classSummary[(string)$class['name']] = [
@@ -110,8 +110,8 @@ foreach ($classSummary as $name => $info) {
 $classSummary && print PHP_EOL;
 
 if ($linePercent >= $upperThreshold) {
-    printf("${GREEN_COLOR}${BOLD_COLOR}> Summary Line Coverage: %s%% ($lineHits/$lineTotals)${NORMAL_COLOR}", $linePercent) . PHP_EOL;
+    printf("${GREEN_COLOR}${BOLD_COLOR}> Summary Line Coverage: %s%% ($lineHits/$lineTotals)${NORMAL_COLOR}" . PHP_EOL, $linePercent);
 } else {
-    printf("::error::Code coverage is %s%% (%d/%d), which is below the accepted %s%%.", (float)$linePercent, $lineHits, $lineTotals, $upperThreshold) . PHP_EOL;
+    printf("::error::Code coverage is %s%% (%d/%d), which is below the accepted %s%%." . PHP_EOL, (float)$linePercent, $lineHits, $lineTotals, $upperThreshold);
     exit($failIfLow ? 1 : 0);
 }
