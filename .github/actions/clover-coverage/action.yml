@@ -1,0 +1,24 @@
+name: 'Code Coverage Clover'
+description: 'Coverage expert by clover'
+inputs:
+  filename:
+    description: 'Report to Clover Coverage XML Report'
+    required: true
+  thresholds:
+    description: 'Threshold percentages for health indicators'
+    required: false
+    default: 50..75
+  fail_if_low:
+    description: 'Whether to fail the build if coverage too low'
+    required: false
+    default: false
+outputs:
+  percent:
+    description: 'Current coverage percentage'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.filename }}
+    - ${{ inputs.thresholds }}
+    - ${{ inputs.fail_if_low }}

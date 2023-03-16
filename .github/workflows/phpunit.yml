@@ -1,5 +1,5 @@
 name: PHPUnit
-run-name: API Server Tests
+run-name: PHPUnit Testing
 on:
   push:
     branches:
@@ -20,11 +20,10 @@ jobs:
       matrix:
         php: [8.1]
     steps:
-      - name: Checkout Repository
+      - name: Git Checkout
         uses: actions/checkout@v3
 
-      # Docs: https://github.com/shivammathur/setup-php
-      - name: Setup PHP
+      - name: Install PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
@@ -36,22 +35,82 @@ jobs:
         id: composer-cache
         run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
-      - name: Cache Dependency
+      - name: Create Composer Cache
+        id: cache-composer
         uses: actions/cache@v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
+          key: php-${{ matrix.php }}-composer-${{ hashFiles('composer.lock') }}
           restore-keys: php-${{ matrix.php }}-composer-
+
+      - if: ${{ steps.cache-composer.outputs.cache-hit != 'true' }}
+        name: List the State of Composer Modules
+        continue-on-error: true
+        run: composer show
 
       - name: Install Composer Dependencies
         run: composer install --no-progress --prefer-dist --optimize-autoloader
 
-      - name: Run Tests
-        run: php vendor/bin/phpunit -c phpunit.xml.dist test --coverage-html=build/coverage --coverage-clover=build/coverage-report.clover --log-junit=build/test-report.xml
+      - name: Run PHPUnit Tests
+        run: |
+          php vendor/bin/phpunit -c phpunit.xml.dist tests \
+            --coverage-text=output/tests/coverage.txt \
+            --coverage-clover=output/tests/coverage.clover.xml \
+            --coverage-cobertura=output/tests/coverage.cobertura.xml \
+            --log-junit=output/tests/report.junit.xml
 
-      - name: Publish PHP Test Results
+      - name: PHPUnit Coverage Report Plain
+        if: always()
+        run: cat output/tests/coverage.txt
+
+      - name: PHPUnit Coverage Report Cobertura
+        uses: irongut/CodeCoverageSummary@v1.3.0
+        if: always()
+        with:
+          filename: output/tests/coverage.cobertura.xml
+          badge: true
+          fail_below_min: false
+          format: markdown
+          hide_branch_rate: false
+          hide_complexity: true
+          indicators: true
+          output: both
+          thresholds: '60 80'
+
+      - name: PHPUnit Coverage Report Clover
+        uses: sourcetoad/phpunit-coverage-action@v1
+        if: always()
+        with:
+          clover_report_path: output/tests/coverage.clover.xml
+          min_coverage_percent: 80
+          fail_build_on_under: false
+
+      - name: PHPUnit Coverage Report Clover XXX
+        id: clover_coverage
+        uses: ./.github/actions/clover-coverage
+        if: always()
+        with:
+          filename: output/tests/coverage.clover.xml
+          thresholds: '60-80'
+          fail_if_low: true
+
+      - name: PHPUnit Coverage Report Cobertura XXX
+        id: cobertura_coverage
+        uses: ./.github/actions/cobertura-coverage
+        if: always()
+        with:
+          filename: output/tests/coverage.cobertura.xml
+          min_coverage: 80
+          fail_if_low: true
+
+      - name: PHPUnit Coverage Report Cobertura XXX Result
+        if: always()
+        run: |
+          echo "Coverage is ${{ steps.cobertura_coverage.outputs.percent }}%"
+
+      - name: Publish PHPUnit Result
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
         with:
-          check_name: PHP Test Results
-          files: build/test-report.xml
+          check_name: View PHPUnit Result
+          files: output/tests/report.junit.xml

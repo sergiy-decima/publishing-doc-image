@@ -10,6 +10,9 @@
     <projectFiles>
         <directory name="src"/>
         <ignoreFiles>
+            <directory name=".phpunit.cache"/>
+            <directory name="phpunit-result"/>
+            <directory name="tests"/>
             <directory name="vendor"/>
         </ignoreFiles>
     </projectFiles>
