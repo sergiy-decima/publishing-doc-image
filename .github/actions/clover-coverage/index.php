@@ -89,7 +89,7 @@ printf("${BOLD_COLOR}Summary Coverage Report:${NORMAL_COLOR}" . PHP_EOL);
 printf("  Classes: %' 8.2f%%  (%d/%d)\t$classMark" . PHP_EOL, $classPercent, $classHits, $classTotals);
 printf("  Methods: %' 8.2f%%  (%d/%d)\t$methodMark" . PHP_EOL, $methodPercent, $methodHits, $methodTotals);
 printf("  Lines:   %' 8.2f%%  (%d/%d)\t$lineMark" . PHP_EOL, $linePercent, $lineHits, $lineTotals);
-echo PHP_EOL;
+print PHP_EOL;
 
 foreach ($classSummary as $name => $info) {
     $classHitsItem    = $info['covered_methods'];
@@ -102,16 +102,16 @@ foreach ($classSummary as $name => $info) {
     $COLOR = $linePercentItem < $lowThreshold ? $ERROR_COLOR : ($linePercentItem < $upperThreshold ? $WARNING_COLOR : $SUCCESS_COLOR);
     $lineMarkItem = generateHealthIndicator($linePercentItem);
     printf("${BOLD_COLOR}%s${NORMAL_COLOR}" . PHP_EOL, $name);
-    printf("${COLOR}  ${lineMarkItem}  Methods: %' 8.2f%%  (%d/%d)${NORMAL_COLOR}   ${COLOR}Lines: %' 8.2f%%  (%d/%d)${NORMAL_COLOR}" . PHP_EOL,
+    printf("${COLOR}  Methods: %' 8.2f%%  (%d/%d) ${NORMAL_COLOR}\t${COLOR} Lines: %' 8.2f%%  (%d/%d) ${NORMAL_COLOR}" . PHP_EOL,
         $classPercentItem, $classHitsItem, $classTotalsItem,
         $linePercentItem, $lineHitsItem, $lineTotalsItem
     );
 }
-echo PHP_EOL;
+$classSummary && print PHP_EOL;
 
 if ($linePercent >= $upperThreshold) {
-    echo sprintf("${GREEN_COLOR}${BOLD_COLOR}> Summary Line Coverage: %s%% ($lineHits/$lineTotals)${NORMAL_COLOR}", $linePercent) . PHP_EOL;
+    printf("${GREEN_COLOR}${BOLD_COLOR}> Summary Line Coverage: %s%% ($lineHits/$lineTotals)${NORMAL_COLOR}", $linePercent) . PHP_EOL;
 } else {
-    echo sprintf("::error::Code coverage is %s%% (%d/%d), which is below the accepted %s%%.", (float)$linePercent, $lineHits, $lineTotals, $upperThreshold) . PHP_EOL;
+    printf("::error::Code coverage is %s%% (%d/%d), which is below the accepted %s%%.", (float)$linePercent, $lineHits, $lineTotals, $upperThreshold) . PHP_EOL;
     exit($failIfLow ? 1 : 0);
 }
