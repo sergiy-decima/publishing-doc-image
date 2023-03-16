@@ -4,6 +4,11 @@ namespace Decima\Doc;
 
 class Hello
 {
+    private $name;
+    public function __construct()
+    {
+        $this->name = 'Valera';
+    }
     public function hello(): string
     {
         return 'hi';

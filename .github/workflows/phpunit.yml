@@ -85,6 +85,15 @@ jobs:
           min_coverage_percent: 80
           fail_build_on_under: false
 
+      - name: PHPUnit Coverage Report Clover XXX
+        id: clover_coverage
+        uses: ./.github/actions/clover-coverage
+        if: always()
+        with:
+          filename: output/tests/coverage.clover.xml
+          thresholds: '30..40'
+          fail_if_low: true
+
       - name: PHPUnit Coverage Report Cobertura XXX
         id: cobertura_coverage
         uses: ./.github/actions/cobertura-coverage
@@ -97,7 +106,7 @@ jobs:
       - name: PHPUnit Coverage Report Cobertura XXX Result
         if: always()
         run: |
-          echo "::wave:: Coverage is ${{ steps.cobertura_coverage.outputs.percent }}%"
+          echo "Coverage is ${{ steps.cobertura_coverage.outputs.percent }}%"
 
       - name: Publish PHPUnit Result
         uses: EnricoMi/publish-unit-test-result-action@v2

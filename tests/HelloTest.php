@@ -11,4 +11,10 @@ class HelloTest extends TestCase
         $math = new \Decima\Doc\Hello();
         $this->assertEquals('hi', $math->hello());
     }
+
+    public function testGo()
+    {
+        $math = new \Decima\Doc\Hello();
+        $this->assertEquals('home', $math->go());
+    }
 }

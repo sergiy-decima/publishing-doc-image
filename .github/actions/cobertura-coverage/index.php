@@ -30,13 +30,13 @@ function parseLines(SimpleXMLElement $linesElement, array &$return): void
     }
 }
 
-$linePercent = sprintf('%.02f', $lineHits / $lineTotals * 100);
+$linePercent = $lineTotals ? sprintf('%.02f', $lineHits / $lineTotals * 100) : 0;
 //shell_exec('echo ' . sprintf('"percent=%s" >> $GITHUB_OUTPUT', $linePercent));
 file_put_contents($_ENV['GITHUB_OUTPUT'], sprintf("percent=%s", $linePercent) . PHP_EOL, FILE_APPEND);
 
 if ($linePercent >= $minPercent) {
-    echo sprintf("Summary Line Coverage: %s%% ($lineHits / $lineTotals)", $linePercent) . PHP_EOL;
+    echo sprintf("Summary Line Coverage: %s%% ($lineHits/$lineTotals)", $linePercent) . PHP_EOL;
 } else {
-    echo sprintf("::error::Code coverage is %s%% (%s / %s), which is below the accepted %s%%.", $linePercent, $lineHits, $lineTotals, $minPercent) . PHP_EOL;
+    echo sprintf("::error::Code coverage is %s%% (%s/%s), which is below the accepted %s%%.", $linePercent, $lineHits, $lineTotals, $minPercent) . PHP_EOL;
     exit($failIfLow ? 1 : 0);
 }

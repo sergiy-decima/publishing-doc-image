@@ -1,13 +1,13 @@
-name: 'Code Coverage Cobertura'
-description: 'Coverage expert by cobertura'
+name: 'Code Coverage Clover'
+description: 'Coverage expert by clover'
 inputs:
   filename:
-    description: 'Report to Cobertura Coverage XML Report'
+    description: 'Report to Clover Coverage XML Report'
     required: true
-  min_coverage:
-    description: 'Coverage percent (minimum to enforce)'
+  thresholds:
+    description: 'Threshold percentages for health indicators'
     required: false
-    default: 80
+    default: 50..75
   fail_if_low:
     description: 'Whether to fail the build if coverage too low'
     required: false
@@ -20,5 +20,5 @@ runs:
   image: 'Dockerfile'
   args:
     - ${{ inputs.filename }}
-    - ${{ inputs.min_coverage }}
+    - ${{ inputs.thresholds }}
     - ${{ inputs.fail_if_low }}
