@@ -8,26 +8,20 @@ $failIfLow  = filter_var($argv[3], FILTER_VALIDATE_BOOLEAN);
 $lineHits   = 0;
 $lineTotals = 0;
 foreach (simplexml_load_file($filename)->xpath('*/package/classes') as $classesElement) {
-    $lines = [];
-    $classes = ((array)$classesElement)['class'];
-    foreach ($classes as $class) {
-        parseLines($class->lines, $lines);
+    $result = [];
+    $classes = (array)((array)$classesElement)['class'];
+    if (!empty($classes['lines'])) {
+        $lines = (array)$classes['lines'];
+        $lines = !empty($lines['line']) ? (array)$lines['line'] : [];
+    } else {
+        $lines = [];
     }
-
-    $lineHits   += array_sum($lines);
-    $lineTotals += count($lines);
-}
-
-function parseLines(SimpleXMLElement $linesElement, array &$return): void
-{
-    $lines = (array)$linesElement ? ((array)$linesElement)['line'] : [];
-    if (is_object($lines)) {
-        $lines = [$lines];
-    }
-
     foreach ($lines as $line) {
-        $return[(int)$line->attributes()->number] = (int)$line->attributes()->hits;
+        $result[(int)$line['number']] = (int)$line['hits'] > 0 ? 1 : 0;
     }
+
+    $lineHits   += array_sum($result);
+    $lineTotals += count($result);
 }
 
 $linePercent = $lineTotals ? sprintf('%.02f', $lineHits / $lineTotals * 100) : 0;
