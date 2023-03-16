@@ -87,7 +87,7 @@ jobs:
 
       - name: PHPUnit Coverage Report Clover XXX
         id: clover_coverage
-        uses: ./.github/actions/clover-coverage
+        uses: sergiy-decima/clover-coverage-action
         if: always()
         with:
           filename: output/tests/coverage.clover.xml
